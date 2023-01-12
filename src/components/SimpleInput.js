@@ -1,54 +1,38 @@
 import { useEffect, useState } from "react"
 
 const SimpleInput = (props) => {
-	// const nameRef = useRef()
-	// const formRef = useRef()
 	const [name, setName] = useState("")
-	const [isValid, setIsValid] = useState(false)
 	const [isTouched, setIsTouched] = useState(false)
+	const [formIsValid, setFormIsValid] = useState(false)
+
+	const isValid = name.trim() !== ""
+	const isInvalid = !isValid && isTouched
 
 	useEffect(() => {
 		if (isValid) {
-			console.log("is valid")
+			setFormIsValid(true)
+		} else {
+			setFormIsValid(false)
 		}
 	}, [isValid])
 
 	const nameHandler = (e) => {
-		e.preventDefault()
 		setName(e.target.value)
-		setIsValid(true)
-		if (e.target.value.trim() !== "") {
-			setIsValid(true)
-		}
-		if (e.target.value.trim() === "") {
-			setIsValid(false)
-		}
 	}
 
 	const blurHandler = (e) => {
-		e.preventDefault()
 		setIsTouched(true)
-		if (name.trim() === "") {
-			setIsValid(false)
-		}
 	}
 
 	const formHandler = (e) => {
 		e.preventDefault()
 		setIsTouched(true)
-		// const enteredName = nameRef.current.value
-		// formRef.current.reset()
-		if (name.trim() === "") {
-			setIsValid(false)
+		if (!isValid) {
 			return
 		}
-		setIsValid(true)
 		setName("")
-		// console.log(name)
-		// console.log(enteredName)
+		setIsTouched(false)
 	}
-
-	const isInvalid = !isValid && isTouched
 
 	const formClasses = isInvalid ? "form-control invalid" : "form-control"
 
@@ -68,7 +52,7 @@ const SimpleInput = (props) => {
 				)}
 			</div>
 			<div className="form-actions">
-				<button>Submit</button>
+				<button disabled={!formIsValid}>Submit</button>
 			</div>
 		</form>
 	)
