@@ -36,6 +36,11 @@ const BasicForm = (props) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
+		if (!formValid) {
+			return
+		}
+		console.log("Submitted!")
+		console.log(nameValue, lastNameValue, emailValue)
 		nameReset()
 		lastNameReset()
 		emailReset()
@@ -60,9 +65,7 @@ const BasicForm = (props) => {
 						id="name"
 					/>
 					{nameError && (
-						<p className="error-text">
-							First name must not be empty
-						</p>
+						<p className="error-text">Please enter First Name</p>
 					)}
 				</div>
 				<div className={lastNameClasses}>
@@ -75,9 +78,7 @@ const BasicForm = (props) => {
 						id="lastName"
 					/>
 					{lastNameError && (
-						<p className="error-text">
-							Last name must not be empty
-						</p>
+						<p className="error-text">Please enter Last Name</p>
 					)}
 				</div>
 			</div>
@@ -91,7 +92,9 @@ const BasicForm = (props) => {
 					id="email"
 				/>
 			</div>
-			{emailError && <p className="error-text">Email must be valid</p>}
+			{emailError && (
+				<p className="error-text">Please enter valid Email</p>
+			)}
 			<div className="form-actions">
 				<button disabled={!formValid}>Submit</button>
 			</div>
